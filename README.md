@@ -79,3 +79,19 @@ For **Gate 3**, add Sihti-like multiscale residues and physically nonlinear phas
 For **Gate 4**, replace the simplistic sand update with a defensible transport/scour law and verify stability, energetic costs, and read/write separation. Do not treat this 36-cell toy as a shallow-water PDE solver or a biological neuron.
 
 **Useful distinction:** physical bed coordinates describe where the material is. A predictive state describes which distinctions are needed to forecast the accessible answers. The sensitivity Jacobian maps between them locally. That is the *index* we can measure.
+
+
+## Gate 2A — Choose the next diagnostic ping (exploratory)
+
+The new [active-probe benchmark](active_probe.py) introduces an **unknown localized write** at one of nine positions. An external controller uses previously calibrated response templates to identify the changed location by selecting weak diagnostic queries. Three policies receive identical archive data and post-event read budgets: a posterior-guided adaptive policy, a best-first fixed policy, and a randomized policy.
+
+The useful finding is a **negative one**: adaptive queries did *not* reliably beat the strongest tested fixed schedule on 81 held-out synthetic beds. Both commonly beat random queries when noise was increased. This establishes an identification benchmark, **not** an embodied self-index and not an advantage for active sensing over static design.
+
+Run locally (CPU only):
+
+```bash
+python active_probe.py --train 12 --test 81 --seed 37 --noise-ratio 1.25
+python -m pytest -q
+```
+
+The eight pre-event archive measurements are shared by all methods but represent real measurement cost; the post-event query budget is 1–4. The training templates are supervised and the adaptive strategy is a coded, external policy. See [Gate 2A protocol and results](docs/GATE2.md) for the complete comparison, weaknesses, and next tests.
